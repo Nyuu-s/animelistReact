@@ -4,10 +4,12 @@ import { SiWebtoon as Test } from 'react-icons/si';
 import {MdOutlineCancel} from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { useStateContext } from '../contexts/ContextProvider';
+import { FiSettings } from 'react-icons/fi';
 
-import { links } from '../data/dummy';
+import { links } from '../data/links';
+import { ThemeSettings } from '.';
 const Sidebar = () => {
-  const {activeMenu, setActiveMenu, screenSize} = useStateContext();
+  const {activeMenu, setActiveMenu, screenSize, currentColor, setThemeSettings} = useStateContext();
   
   const activeLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2';
   const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2';
@@ -17,6 +19,8 @@ const Sidebar = () => {
       setActiveMenu(false)
     }
   }
+
+
 
   return (
     <div className='ml-3 h-screen
@@ -53,6 +57,10 @@ const Sidebar = () => {
                       to={`/${link.name}`}
                       key={link.name}
                       onClick={handleCloseSideBar}
+
+                      style={({ isActive }) => ({
+                        backgroundColor: isActive ? currentColor : ''
+                      })}
                       className={({ isActive }) => (isActive ? activeLink : normalLink)}
                     >
                       {link.icon}
@@ -61,10 +69,40 @@ const Sidebar = () => {
                   )
                 
                 )}
+                
 
               </div>
               
             ))}
+            
+            <div >
+              <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                  Settings
+              </p>
+              <div>
+
+               <button type='button' className={'flex w-64 items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2'}
+                onClick={() => {setThemeSettings(true);  }}
+              >
+                <FiSettings /> <span className="capitalize ">Themes</span>
+              </button> 
+
+                {/* <NavLink
+                      to={`/`}
+                      key={''}
+                      onClick={handleCloseThemes}
+
+                      
+                      className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                    >
+                      {<FiSettings />}
+                      <span className="capitalize ">{"dssgfdh"}</span>
+                    </NavLink> */}
+              </div>
+            
+              
+              
+            </div>
         </div>
       
       </>)}

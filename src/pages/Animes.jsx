@@ -12,16 +12,16 @@ import {
     PdfExport, 
     Edit,
     Toolbar,
-    Search,
+    Selection,
     Inject,
   } from '@syncfusion/ej2-react-grids'
 
-import { ordersData, contextMenuItems, ordersGrid } from '../data/dummy'
+import { ordersData, ordersGrid } from '../data/dummy'
 import { Header } from '../components'
 
-const Orders = () => {
+const Animes = () => {
   return (
-    <div className='m-2 md:m-10 p-2 md:-10 bg-white rounded-3xl'>
+    <div className='m-2 md:m-10 p-2 md:-10 dark:bg-main-dark-bg bg-white rounded-3xl'>
       <Header 
         category="Page"
         title="Orders"
@@ -30,19 +30,21 @@ const Orders = () => {
       dataSource={ordersData}
       allowPaging
       allowSorting
-      toolbar={['Search']}
- 
-      
+      toolbar={['Search', 'Delete']}
+      editSettings= {{allowDeleting: true, allowEditing:true , allowEditOnDblClick:true}}
+      allowFiltering
+      allowMultiSorting
+      cssClass='dark'
       >
         <ColumnsDirective>
         {ordersGrid.map((item, index) => (
             <ColumnDirective key={index} {...item}/>
           ))}
         </ColumnsDirective>
-        <Inject services={[Resize, Toolbar, Page, Sort, ContextMenu, Filter, ExcelExport, PdfExport, Edit]}/>
+        <Inject services={[Resize, Selection, Toolbar, Page, Sort, ContextMenu, Filter, ExcelExport, PdfExport, Edit]}/>
       </GridComponent>
     </div>
   )
 }
 
-export default Orders
+export default Animes
