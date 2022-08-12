@@ -3,19 +3,26 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { FiSettings } from 'react-icons/fi'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
 import {Navbar, Sidebar, ThemeSettings} from './components'
-import {Landing, Orders, Calendar, Customers, Kanban, ColorPicker} from './pages'
+import {Landing, Animes, Calendar, Customers, Kanban, ColorPicker} from './pages'
 
 import './App.css'
 
 import { useStateContext } from './contexts/ContextProvider'
+import LoadData from './pages/LoadData'
+
+import AnimesTest from './pages/AnimeTest'
 
 
 
 
 const App = () => {
-  const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode} = useStateContext();
+
+  
+  const {activeMenu, themeSettings, currentColor, currentMode} = useStateContext();
   return (
-   <div className={currentMode === 'Dark' ? 'dark' : ''}>
+    
+   <div id='appbody' className={currentMode === 'Dark' ? 'dark' : '' }>
+
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className='fixed right-4 bottom-4' style={{zIndex:'1000'}}>
@@ -29,19 +36,19 @@ const App = () => {
               text-white
                 '
                 style={{background: currentColor, borderRadius: "50%"}}
-                onClick={() => setThemeSettings(true)}
+                onClick={async () => console.log(await window.api.storageGet())}
               >
                 <FiSettings />
               </button>
             </TooltipComponent>
           </div>
           {activeMenu ? (
-            <div className='w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white'>
+            <div className='w-72 fixed  dark:bg-secondary-dark-bg bg-white z-10'>
               <Sidebar />
             </div>
           ) : (
             <div className='w-0 dark:bg-secondary-dark-bg'>
-              
+              <Sidebar />
             </div>
           )}
           <div className={
@@ -51,7 +58,7 @@ const App = () => {
               : 'flex-2'}`
             
           }>
-            <div className='fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full'>
+            <div className='fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full z-10'>
               <Navbar />
             </div>
           
@@ -66,7 +73,8 @@ const App = () => {
               <Route path="/main" element={<Landing/>}/>
 
               {/* PAGES */}
-              <Route path="/animes" element={<Orders/>}/>
+              <Route path="/animes" element={<Animes/>}/>
+              <Route path="/animestest" element={<AnimesTest/>}/>
               <Route path="/themes" element={<ThemeSettings/>}/>
               <Route path="/customers" element={<Customers/>}/>
 
@@ -75,6 +83,7 @@ const App = () => {
               <Route path="/todo-list" element={<Kanban/>}/>
               <Route path="/color-picker" element={<ColorPicker/>}/>
               <Route path="/calendar" element={<Calendar/>}/> 
+              <Route path="/load-data" element={<LoadData/>}/> 
             </Routes>
           </div>
         </div>

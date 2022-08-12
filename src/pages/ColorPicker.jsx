@@ -29,14 +29,14 @@ const ColorPicker = () => {
     <div className='mt-4 bg-white rounded-3xl dark:bg-main-dark-bg'>  
 
       <button
-                    id='preview'
-                    className='mb-8 h-11 w-11 rounded-full cursor-pointer'
-                    style={{backgroundColor: backgroundButton}}
-                    onClick={() => {setColor(backgroundButton)}}
-                  >
-                    {backgroundButton === currentColor ?  <BsToggleOn className={`ml-14 text-2xl dark:text-white  `} />  : <BsToggleOff className={`ml-14 text-2xl dark:text-white  `}/>}
-                    {backgroundButton === currentColor ?  <p className={`ml-14 text-lg dark:text-white  `} >ON</p>  : <p className={`ml-14 text-lg dark:text-white  `}>OFF</p> }
-                    
+        id='preview'
+        className='mb-8 h-11 w-11 rounded-full cursor-pointer'
+        style={{backgroundColor: backgroundButton}}
+        onClick={() => {setColor(backgroundButton)}}
+      >
+        {backgroundButton === currentColor ?  <BsToggleOn className={`ml-14 text-2xl dark:text-white  `} />  : <BsToggleOff className={`ml-14 text-2xl dark:text-white  `}/>}
+        {backgroundButton === currentColor ?  <p className={`ml-14 text-lg dark:text-white  `} >ON</p>  : <p className={`ml-14 text-lg dark:text-white  `}>OFF</p> }
+          
       </button>
       <div className='text-center'>
           <div className='flex justify-center items-center gap-10 flex-wrap'>

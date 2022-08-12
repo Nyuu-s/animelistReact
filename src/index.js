@@ -11,8 +11,12 @@ registerLicense('ORg4AjUWIQA/Gnt2VVhiQlFadVlJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXx
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
+  
   <ContextProvider>
     <React.StrictMode>
+
+
       <App />
     </React.StrictMode>
   </ContextProvider>

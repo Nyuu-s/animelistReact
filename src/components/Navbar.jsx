@@ -9,29 +9,32 @@ import avatar from '../data/avatar.jpg'
 import {Notification, UserProfile} from '.'
 import { useStateContext } from '../contexts/ContextProvider'
 
-const NavButton = ({title, customFunction, icon, color, dotColor}) => (
-  <TooltipComponent content={title} position="BottomCenter">
+const NavButton = ({title, customFunction, icon, color, dotColor, position}) => (
+  <div>
 
-    <button 
-      type='button'
-      onClick={customFunction}
-      style={{color}}
-      className="relative text-xl rounded-full p-3 hover:bg-light-gray"
-     >
-      <span style={{background: dotColor}}
-      className='rounded-full absolute inline-flex h-2 w-2 right-2 top-2' />
-      {icon}
-      
-      
-    </button>
+    <TooltipComponent content={title} position="BottomCenter"  style={{position: `${position ? position : undefined}`}}>
 
-  </TooltipComponent>
+      <button 
+        type='button'
+        onClick={customFunction}
+        style={{color}}
+        className="relative text-xl rounded-full p-3 hover:bg-light-gray "
+      >
+        <span style={{background: dotColor}}
+        className='rounded-full absolute inline-flex h-2 w-2 right-2 top-2 ' />
+        {icon}
+        
+        
+      </button>
+
+    </TooltipComponent>
+  </div>
 )
 
 
 const Navbar = () => {
   
-  const {activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, screenSize, setScreenSize, currentColor } = useStateContext();
+  const {activeMenu, setActiveMenu, isClicked, handleClick, screenSize, setScreenSize, currentColor } = useStateContext();
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth)
@@ -52,13 +55,16 @@ const Navbar = () => {
 
   }, [screenSize])
   
-
+  const handleActiveMenu = () => setActiveMenu(!activeMenu);
   return (
-    <div className='flex justify-between p-2 md:mx-6 relative'>
-        <NavButton title="Menu"
-          customFunction={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
+    <div className='flex justify-between p-2 md:ml-6 md:mr-6 relative"'>
+        <NavButton
+          title="Menu"
+          customFunction={handleActiveMenu}
           color={currentColor}
           icon={<AiOutlineMenu />}
+          position='fixed'
+          
         />
       <div className='flex'>
         <NavButton title="User"
@@ -69,6 +75,7 @@ const Navbar = () => {
         />
 
         <TooltipComponent
+       
         content="Profile" position='BottomCenter'
         >
           <div 

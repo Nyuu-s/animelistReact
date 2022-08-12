@@ -25,6 +25,7 @@ const Landing = () => {
               text="Download" 
               borderRadius='10px'
               size="md"
+              
               />
           </div>
         </div>

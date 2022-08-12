@@ -40,7 +40,163 @@
   color: rgb(6, 133, 245);
 }
 
+.e-grid .e-sortnumber {
+  background-color: rgb(32 35 42 / var(--tw-bg-opacity));
+  color: cyan
+}
+
+.e-grid .e-gridheader,
+.e-grid .e-headercell,
+.e-grid .e-pagercontainer,
+.e-grid .e-gridpager,
+.e-grid .e-gridpager .e-prevpage,
+.e-grid .e-gridpager .e-nextpage,
+.e-grid .e-gridpager .e-lastpage,
+.e-grid .e-gridpager .e-firstpage,
+.e-grid .e-gridpager .e-numericitem,
+.e-pager div.e-icons.e-pager-default,
+.e-grid th.e-headercell[aria-sort=descending] .e-headertext,
+.e-grid th.e-headercell[aria-sort=ascending] .e-headertext,
+.e-grid th.e-headercell[aria-sort=ascending] .e-sortfilterdiv,
+.e-grid .e-icon-ascending::before,
+.e-grid-menu .e-icon-ascending::before,
+.e-grid .e-icon-descending::before,
+.e-grid-menu .e-icon-descending::before,
+.e-grid .e-icon-filter::before,
+.e-grid .e-filter-popup .e-dlg-content,
+.e-grid .e-filter-popup .e-footer-content,
+.e-excelfilter .e-filter-popup .e-contextmenu-wrapper ul,
+.e-excelfilter .e-contextmenu-wrapper ul .e-menu-item,
+.e-excelfilter .e-contextmenu-wrapper ul .e-submenu .e-caret,
+.e-excelfilter .e-contextmenu-wrapper ul .e-menu-icon,
+.e-grid .e-filter-popup .e-dlg-content .e-searchinput,
+.e-grid .e-filter-popup .e-dlg-content .e-searchclear,
+.e-grid .e-filter-popup .e-dlg-content .e-checkboxlist .e-checkbox-wrapper .e-label,
+.e-grid .e-filter-popup .e-dlg-content .e-checkboxlist .e-ftrchk,
+.e-grid .e-filter-popup .e-btn
+{
+  background-color: rgb(32 35 42 / var(--tw-bg-opacity));
+  color: white;
+
+}
+
+.e-grid .e-rowcell{
+  background-color: rgb(32 35 42 / var(--tw-bg-opacity));
+  border: none;
+}
+
+.e-grid .e-content::-webkit-scrollbar{
+  background-color:  rgb(32 35 42 / var(--tw-bg-opacity));
+}
+.e-grid .e-content::-webkit-scrollbar-thumb {
+  background-color:  cyan;
+  margin-bottom: 20px;
+  
+}
+
+
+.e-grid .e-toolbar.e-control[class*=e-toolbar],
+.e-toolbar .e-toolbar-items
+{
+border-radius: 40px;
+}
+.e-grid{
+  border-radius: 10px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.e-grid .e-rowcell:not(.e-editedbatchcell):not(.e-updatedtd) {
+  color: white;
+  
+}
+
+.e-grid td.e-selectionbackground,
+.e-grid td.e-selectionbackground.e-active:not(.e-updatedtd):not(.e-indentcell) {
+ background-color: darkgray;
+ color: black;
+ 
+ 
+}
+.e-grid.e-gridhover tr[role=row]:not(.e-editedrow):not(.e-detailrow):hover .e-rowcell:not(.e-cellselectionbackground):not(.e-active):not(.e-updatedtd):not(.e-indentcell)
+{
+  background-color: rgb(0, 43, 63);
+  color: gray
+}
+
+.e-excelfilter .e-contextmenu-wrapper ul,
+.e-grid .e-filter-popup .e-dlg-content{
+  border: solid;
+  border-color: aqua;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  
+  border-width: 1px;
+}
+.e-checkbox-wrapper .e-frame.e-check, .e-css.e-checkbox-wrapper .e-frame.e-check
+{
+  background-color: slategray;
+  color: black
+}
+
+.e-checkbox-wrapper .e-frame.e-check:hover, .e-css.e-checkbox-wrapper .e-frame.e-check:hover,
+.e-checkboxlist .e-checkbox-wrapper:hover .e-frame.e-check
+{
+  background-color: cyan;
+  color: black
+}
+
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::before,
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::before
+{
+  background-color: cyan;
+  
+}
+
+.e-grid .e-filter-popup .e-dlg-content .e-searchinput::placeholder{
+  color: gray;
+}
+
+
+.e-excelfilter .e-contextmenu-wrapper ul .e-submenu:hover .e-caret,
+.e-contextmenu-wrapper ul .e-menu-item.e-focused:hover
+{
+  background-color: gray;
+}
+
+.e-contextmenu-wrapper ul {
+  background-color: rgb(32 35 42);
+  color: white;
+}
+
+.e-excel-ascending,
+.e-excel-descending,
+.e-separator.e-excel-separator {
+display: none;
+}
+
+
+.e-grid .e-gridpager .e-currentitem,
+.e-grid .e-currentitem.e-numericitem.e-focused{
+  color: cyan;
+  background-color: darkslategrey
+}
+
+.e-grid .e-gridpager .e-firstpagedisabled,
+.e-grid .e-gridpager .e-nextpagedisabled,
+.e-grid .e-gridpager .e-lastpagedisabled,
+.e-grid .e-gridpager .e-prevpagedisabled
+{
+  background-color: rgb(32 35 42 / var(--tw-bg-opacity));
+  color: lightslategray
+}
 
 .e-input-group:not(.e-float-icon-left), .e-input-group.e-success:not(.e-float-icon-left), .e-input-group.e-warning:not(.e-float-icon-left), .e-input-group.e-error:not(.e-float-icon-left), .e-input-group.e-control-wrapper:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-success:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-warning:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-error:not(.e-float-icon-left){
   border: none;
 }
+
+

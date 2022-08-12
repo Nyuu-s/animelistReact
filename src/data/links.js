@@ -9,6 +9,7 @@ export const links = [
       links: [
         {
           name: 'main',
+          src: 'main',
           icon: <FiShoppingBag />,
         },
       ],
@@ -19,6 +20,12 @@ export const links = [
       links: [
         {
           name: 'animes',
+          src: 'animes',
+          icon: <AiOutlineShoppingCart />,
+        },
+        {
+          name: 'animes 2',
+          src: 'animestest',
           icon: <AiOutlineShoppingCart />,
         },
       ],
@@ -28,10 +35,12 @@ export const links = [
       links: [
         {
           name: 'calendar',
+          src: 'calendar',
           icon: <AiOutlineCalendar />,
         },
         {
           name: 'todo-list',
+          src: 'todo-list',
           icon: <BsKanban />,
         },
       ],

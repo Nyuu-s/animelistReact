@@ -1,3 +1,4 @@
+import { appendInfiniteContent } from "@syncfusion/ej2-react-grids";
 import React, { createContext, useContext, useState} from "react";
 
 const StateContext = createContext();
@@ -15,6 +16,8 @@ export const ContextProvider = ({ children }) => {
     const [currentColor, setCurrentColor] = useState( () => (localStorage.getItem('themeColor') ? localStorage.getItem('themeColor') : '#03C9D7' ));
     const [currentMode, setCurrentMode] = useState(() => (localStorage.getItem('themeMode') ? localStorage.getItem('themeMode') : 'Light'));
     const [themeSettings, setThemeSettings] = useState(false);
+    const [AnimesData, setAnimesData] = useState({})
+
 
     const setMode = (e) => {
         setCurrentMode(e.target.value)
@@ -27,6 +30,9 @@ export const ContextProvider = ({ children }) => {
         localStorage.setItem('themeColor', color)
       
     }
+
+
+
     const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true})
 
     return (
@@ -42,7 +48,9 @@ export const ContextProvider = ({ children }) => {
             currentMode,
             currentColor,
             themeSettings, setThemeSettings,
-            setMode, setColor
+            setMode, setColor,
+            AnimesData, setAnimesData
+            
         }}
         >
             {children}
