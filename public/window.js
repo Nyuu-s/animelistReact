@@ -12,7 +12,7 @@
 const Store = require('electron-store')
 const storage = new Store()
 
-const getWinSettings = () => {
+const getWinBounds = () => {
     const default_bounds = [800, 650]
     const size = storage.get("win-size");
     if(size) return size;
@@ -23,14 +23,30 @@ const getWinSettings = () => {
     }
 }
 
+const getWinPos = () => {
+    const default_pos = {x: 300, y:300}
+    const position = storage.get("win-pos");
+    if(position) return position;
+    else
+    {
+        storage.set("win-pos", default_pos)
+        return default_pos
+    }
+}
+
 const saveBounds = (bounds) => {
     storage.set("win-size", bounds)
+}
+const savePosition = (pos) => {
+    storage.set("win-pos", {x: pos[0], y:pos[1]})
 }
 
 
 
 module.exports = {
-    getWindowSettings: getWinSettings,
+    getWindowBounds: getWinBounds,
+    getWindowPosition: getWinPos,
     saveBounds: saveBounds,
+    savePosition
     
 }

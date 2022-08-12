@@ -1,4 +1,5 @@
-import { AiOutlineCalendar, AiOutlineShoppingCart } from 'react-icons/ai';
+import { AiOutlineCalendar, AiOutlineUnorderedList } from 'react-icons/ai';
+import {TbListDetails} from 'react-icons/tb'
 import { FiShoppingBag} from 'react-icons/fi';
 import { BsKanban } from 'react-icons/bs';
 import { IoMdContacts } from 'react-icons/io';
@@ -21,12 +22,17 @@ export const links = [
         {
           name: 'animes',
           src: 'animes',
-          icon: <AiOutlineShoppingCart />,
+          icon: <AiOutlineUnorderedList />,
         },
         {
           name: 'animes 2',
           src: 'animestest',
-          icon: <AiOutlineShoppingCart />,
+          icon: <AiOutlineUnorderedList />,
+        },
+        {
+          name: 'animes details',
+          src: 'animesdetails',
+          icon: <TbListDetails />,
         },
       ],
     },

@@ -14,7 +14,7 @@ const AnimesTest = () => {
  
 
   useEffect(() => {
-    console.log("loading...");
+    
     window.api.storageGet().then(data => {
     
       setAnimesData(data)

@@ -3,14 +3,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { FiSettings } from 'react-icons/fi'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
 import {Navbar, Sidebar, ThemeSettings} from './components'
-import {Landing, Animes, Calendar, Customers, Kanban, ColorPicker} from './pages'
+import {Landing, Animes, AnimesTest, AnimesDetails, Calendar, Customers, Kanban, ColorPicker} from './pages'
 
 import './App.css'
 
 import { useStateContext } from './contexts/ContextProvider'
 import LoadData from './pages/LoadData'
 
-import AnimesTest from './pages/AnimeTest'
+
 
 
 
@@ -64,7 +64,7 @@ const App = () => {
           
 
           <div>
-
+            
             { themeSettings && <ThemeSettings /> }
 
             <Routes>
@@ -75,6 +75,7 @@ const App = () => {
               {/* PAGES */}
               <Route path="/animes" element={<Animes/>}/>
               <Route path="/animestest" element={<AnimesTest/>}/>
+              <Route path="/animesdetails" element={<AnimesDetails/>}/>
               <Route path="/themes" element={<ThemeSettings/>}/>
               <Route path="/customers" element={<Customers/>}/>
 

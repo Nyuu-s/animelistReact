@@ -43,10 +43,8 @@ const animesNamesLinks = (props) => {
 );
 }
 
-const animesGroupesLinks = (props, tcolor) => {
-  console.log(props, tcolor);
-
-  var link , text
+const animesGroupesLinks = (props) => {
+  
   var haveLink = typeof props[`${props.column.headerText}`] === 'object' ? true : false
   var haveText = props[`${props.column.headerText}`].text != '' ? true : false
 
@@ -107,7 +105,7 @@ const Animes = () => {
             dataSource={animes.data && animes.data}
            
             allowPaging
-            pageSettings={{pageCount: 12}}
+            pageSettings={{pageCount: 12, pageSize:16}}
             allowFiltering={true}
             filterSettings={filterOption}
             allowSorting

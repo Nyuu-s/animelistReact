@@ -3,9 +3,8 @@ const {app, BrowserWindow, dialog, Menu, shell} = require('electron');
 const { ipcMain } = require('electron/main');
 const path = require('path')
 const { Parser } = require('../src/data/AnimesXLSXParser')
-const { getWindowSettings, saveBounds, saveItem } = require('./window')
+const { getWindowBounds, getWindowPosition, savePosition, saveBounds } = require('./window')
 const Store = require('electron-store');
-const { electron } = require('process');
 
 const storage = new Store()
 require('electron-reload')(__dirname)
@@ -13,10 +12,14 @@ require('electron-reload')(__dirname)
 let win
 const localhost = 'http://localhost:3000'
 function createWindow(){
-    const bounds = getWindowSettings();
+    const bounds = getWindowBounds();
+    const position = getWindowPosition();
     win = new BrowserWindow({
         width: bounds[0],
         height: bounds[1],
+        darkTheme: true,
+        x: position.x,
+        y: position.y,
         
         // frame:false,
         // autoHideMenuBar: true,
@@ -29,8 +32,12 @@ function createWindow(){
         
         
     })
-    win.setTitle('test')
+    
+    win.on('moved', () => savePosition(win.getPosition()))
     win.on('resized', () => saveBounds(win.getSize()))
+    win.on('maximize', () => saveBounds(win.getSize()))
+    win.on('unmaximize', () => saveBounds(win.getSize()))
+  
     win.on('ready-to-show', win.show)
 
 
@@ -88,8 +95,6 @@ app.on('ready', () => {
     ipcMain.handle('storage:read-data', handleStorageAccess);
     ipcMain.handle('parser:xslx', handleParseAnimes);
     
-    storage.delete('data-grid')
-    storage.delete('win-size')
     createWindow();
     const template = [
         {
