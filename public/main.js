@@ -3,7 +3,7 @@ const {app, BrowserWindow, dialog, Menu, shell} = require('electron');
 const { ipcMain } = require('electron/main');
 const path = require('path')
 const { Parser } = require('../src/data/AnimesXLSXParser')
-const { getWindowBounds, getWindowPosition, savePosition, saveBounds } = require('./window')
+const { getWindowBounds, getWindowPosition, savePosition, saveBounds, getImageUrl } = require('./window')
 const Store = require('electron-store');
 
 const storage = new Store()
@@ -86,6 +86,9 @@ const handleOpenInBrowser = (event, uri) => {
     event.preventDefault()
     shell.openExternal(uri)
 }
+const handleGetImageURL = async (_, url) => {
+    return (await getImageUrl(url))
+}
 
 app.on('ready', () => {
     ipcMain.handle('dialog:open-file', handleOpenFile);
@@ -94,6 +97,7 @@ app.on('ready', () => {
     ipcMain.handle('window:open-in-browser', handleOpenInBrowser);
     ipcMain.handle('storage:read-data', handleStorageAccess);
     ipcMain.handle('parser:xslx', handleParseAnimes);
+    ipcMain.handle('data:get-image', handleGetImageURL);
     
     createWindow();
     const template = [

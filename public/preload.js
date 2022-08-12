@@ -23,6 +23,8 @@ contextBridge.exposeInMainWorld(
     openFile: () => ipcRenderer.invoke('dialog:open-file'),
     parseAnimes: (path) => ipcRenderer.invoke('parser:xslx', path),
     storageGet: () => ipcRenderer.invoke('storage:read-data'),
+    getImage: (url) => ipcRenderer.invoke('data:get-image', url)
+    
     
 
 

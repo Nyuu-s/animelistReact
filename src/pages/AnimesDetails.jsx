@@ -25,10 +25,25 @@ const getAnimeImage = (anime) => {
 }
 
 const AnimesDetails = () => {
-  const {activeMenu, AnimesData} = useStateContext()
+  const {activeMenu, AnimesData, setAnimesData} = useStateContext()
 
   console.log(AnimesData);
   var testanime =  AnimesData.data ? AnimesData.data[1] : {Nome: {text: "rien"}}
+  var imgurl = ''
+
+  useEffect(() => {
+    window.api.getImage(testanime.Nome.hyperlink).then(result => {
+      var obj = {...testanime}
+      var test = AnimesData
+      obj['image'] = result
+      test.data[1] = obj
+      setAnimesData(test)
+      console.log('Animesdata : ', AnimesData.data);
+    })
+  
+  
+  }, [])
+  
  
 
   return (
@@ -47,12 +62,12 @@ const AnimesDetails = () => {
           <div className='flex '>
 
             <div id='animeImage' className='w-1/3 h-60'>
-              <img className='h-full' src={getAnimeImage(testanime)} alt="" />
+              <img className='h-full' src={testanime.image} alt="" />
             </div>
             <div className='ml-5'>
               
               <ul className='flex flex-col flex-wrap h-3/4'>
-                {getAnimeInfo(testanime).map(item => (<li className='font-bold p-2 dark:text-gray-300'>{item}</li>))}
+                {getAnimeInfo(testanime).map((item, i) => (<li key={i} className='font-bold p-2 dark:text-gray-300'>{item}</li>))}
 
         
               </ul>

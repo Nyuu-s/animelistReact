@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { FiSettings } from 'react-icons/fi'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
@@ -18,7 +18,14 @@ import LoadData from './pages/LoadData'
 const App = () => {
 
   
-  const {activeMenu, themeSettings, currentColor, currentMode} = useStateContext();
+  const {activeMenu, setAnimesData, themeSettings, currentColor, currentMode} = useStateContext();
+  useEffect(() => {
+    window.api.storageGet().then(data => {
+      setAnimesData(data)
+    })  
+  
+  }, [])
+  
   return (
     
    <div id='appbody' className={currentMode === 'Dark' ? 'dark' : '' }>

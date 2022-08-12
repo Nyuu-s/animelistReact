@@ -10,7 +10,13 @@
 // })
 
 const Store = require('electron-store')
+const cheerio = require('cheerio')
+
 const storage = new Store()
+
+const getImageUrl = async (url) => {
+    return'https://cdn.myanimelist.net/images/anime/4/78321.jpg'
+}
 
 const getWinBounds = () => {
     const default_bounds = [800, 650]
@@ -47,6 +53,7 @@ module.exports = {
     getWindowBounds: getWinBounds,
     getWindowPosition: getWinPos,
     saveBounds: saveBounds,
-    savePosition
+    savePosition,
+    getImageUrl
     
 }
