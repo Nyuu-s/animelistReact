@@ -16,7 +16,8 @@ export const ContextProvider = ({ children }) => {
     const [currentColor, setCurrentColor] = useState( () => (localStorage.getItem('themeColor') ? localStorage.getItem('themeColor') : '#03C9D7' ));
     const [currentMode, setCurrentMode] = useState(() => (localStorage.getItem('themeMode') ? localStorage.getItem('themeMode') : 'Light'));
     const [themeSettings, setThemeSettings] = useState(false);
-    const [AnimesData, setAnimesData] = useState({})
+    const [AnimesData, setAnimesData] = useState({});
+    const [editStack, setEditStack] = useState(undefined);
 
 
     const setMode = (e) => {
@@ -49,7 +50,8 @@ export const ContextProvider = ({ children }) => {
             currentColor,
             themeSettings, setThemeSettings,
             setMode, setColor,
-            AnimesData, setAnimesData
+            AnimesData, setAnimesData,
+            editStack, setEditStack
             
         }}
         >

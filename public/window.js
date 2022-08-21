@@ -11,11 +11,16 @@
 
 const Store = require('electron-store')
 const cheerio = require('cheerio')
+const axios = require('axios');
 
 const storage = new Store()
 
 const getImageUrl = async (url) => {
-    return'https://cdn.myanimelist.net/images/anime/4/78321.jpg'
+    const request = await axios.get(url)
+    const html = request.data;
+    const $ = cheerio.load(html);
+    let result = $('.borderClass img').attr('data-src')
+    return result
 }
 
 const getWinBounds = () => {

@@ -39,7 +39,7 @@ const Sidebar = () => {
           className=" items-center
                       gap-3 ml-3 mt-4 flex text-xl
                       font-extrabold tracking-tight
-                      dark:text-white text-slate-900"> <Test /> <span>WAL</span> 
+                      dark:text-white text-slate-900"> <Test /> <span>Animes v8</span> 
           </Link>
           <TooltipComponent content="Menu" position='BottomCenter'>
             <button type='button' onClick={() => {setActiveMenu((prevActiveMenu) => !prevActiveMenu)}} 
@@ -103,9 +103,9 @@ const Sidebar = () => {
                       
                       className={({ isActive }) => (isActive ? activeLink : normalLink)}
                     >
-                      {<FiSettings />}
-                      <span className="capitalize ">{"dssgfdh"}</span>
-                    </NavLink>
+                    {<FiSettings />}
+                    <span className="capitalize ">{"Load file"}</span>
+                </NavLink>
               </div>
             
               

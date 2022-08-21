@@ -1,37 +1,13 @@
-import React, {useEffect} from 'react'
-
-
-import { Header } from '../components'
-import { CustomDataGrid } from '../components'
-import { useStateContext } from '../contexts/ContextProvider'
-
+import React from 'react'
 
 
 
 
 const AnimesTest = () => {
-  const {AnimesData, setAnimesData, activeMenu} = useStateContext()
- 
-
-  useEffect(() => {
-    
-    window.api.storageGet().then(data => {
-    
-      setAnimesData(data)
-    })   
-  }, [])
-  
-
   return (
-
   <div>
-    <CustomDataGrid>
-      
-    </CustomDataGrid>
-
-  </div>  
-
-
+    
+  </div>
   )
 }
 

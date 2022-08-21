@@ -2,15 +2,16 @@
 const {app, BrowserWindow, dialog, Menu, shell} = require('electron');
 const { ipcMain } = require('electron/main');
 const path = require('path')
-const { Parser } = require('../src/data/AnimesXLSXParser')
+const { Parser } = require('./AnimesXLSXParser')
 const { getWindowBounds, getWindowPosition, savePosition, saveBounds, getImageUrl } = require('./window')
 const Store = require('electron-store');
+const isProd = app.isPackaged
 
 const storage = new Store()
 require('electron-reload')(__dirname)
 
 let win
-const localhost = 'http://localhost:3000'
+const localhost =  !isProd ? 'http://localhost:3000' : `file:\\${path.join(__dirname, '../build/index.html')}`
 function createWindow(){
     const bounds = getWindowBounds();
     const position = getWindowPosition();
@@ -129,6 +130,15 @@ app.on('ready', () => {
                     },
                     {
                         role: 'forceReload'
+                    },
+                    {
+                        role: 'zoomIn'   
+                    },
+                    {
+                        role: 'zoomOut'   
+                    },
+                    {
+                        role: 'resetZoom'
                     }
             ]
         }

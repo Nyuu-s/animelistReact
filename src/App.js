@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { FiSettings } from 'react-icons/fi'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
 import {Navbar, Sidebar, ThemeSettings} from './components'
@@ -30,7 +30,7 @@ const App = () => {
     
    <div id='appbody' className={currentMode === 'Dark' ? 'dark' : '' }>
 
-      <BrowserRouter>
+      <HashRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className='fixed right-4 bottom-4' style={{zIndex:'1000'}}>
 
@@ -82,7 +82,7 @@ const App = () => {
               {/* PAGES */}
               <Route path="/animes" element={<Animes/>}/>
               <Route path="/animestest" element={<AnimesTest/>}/>
-              <Route path="/animesdetails" element={<AnimesDetails/>}/>
+              <Route path="/animesdetails/:id" element={<AnimesDetails/>}/>
               <Route path="/themes" element={<ThemeSettings/>}/>
               <Route path="/customers" element={<Customers/>}/>
 
@@ -96,7 +96,7 @@ const App = () => {
           </div>
         </div>
       </div>
-      </BrowserRouter>
+      </HashRouter>
    </div>
   )
 }

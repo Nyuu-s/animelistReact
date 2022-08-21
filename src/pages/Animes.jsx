@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useMemo} from 'react'
+import { useNavigate } from 'react-router-dom';
 import {
     GridComponent,
     ColumnsDirective,
@@ -13,13 +14,14 @@ import {
     Edit,
     Toolbar,
     Selection,
+    Search,
     Inject,
-    Render,
+    
    
   } from '@syncfusion/ej2-react-grids'
 
 
-import { Header } from '../components'
+import { Header, EditComponent } from '../components'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useStateContext } from '../contexts/ContextProvider'
 
@@ -44,7 +46,9 @@ const animesNamesLinks = (props) => {
 }
 
 const animesGroupesLinks = (props) => {
-  
+  if(!props.Nome){
+    return
+  }
   var haveLink = typeof props[`${props.column.headerText}`] === 'object' ? true : false
   var haveText = props[`${props.column.headerText}`].text != '' ? true : false
 
@@ -67,76 +71,122 @@ const animesGroupesLinks = (props) => {
 );
 }
 
+let navigate
+const contextMenuClick = (args) =>{
+  if(args.item.id === 'details'){
+    console.log();
+    navigate('/animesdetails/'+args.rowInfo.rowData.id)
+  }
+ 
+}
+const contextMenu = [
+  'Edit',
+  'AutoFitAll',
+  {text:'More...', target:'.e-content', id:'details'}
+]
 
+const HandleRowClick =(args) =>{
+
+  console.log(args);
+  navigate('/animesdetails/'+args.rowData.id)
+}
 
 
 const Animes = () => {
   const {AnimesData, setAnimesData, activeMenu, currentColor} = useStateContext()
+  var isHidden = false
+  navigate = useNavigate()
+
   
   const animes = useMemo(() => AnimesData, [AnimesData])
   const filterOption = {
     mode: 'Immediate',
     ignoreAccent: true,
-    type: 'Excel'
-    
+    type: 'Menu',
+ 
   }
-  
+
+  const dialogTemplate = (props) =>{
+    return (<EditComponent {...props}/>)
+  }
+
+  const editOptions = {
+    allowDeleting: true,
+    allowEditing: true,
+    allowAdding: true,
+    mode: 'Dialog'
+  }
 
   useEffect(() => {
-    console.log("loading...");
-    window.api.storageGet().then(data => {
-      setAnimesData(data)
-    })   
-  }, [setAnimesData])
-  
-  const str = 'md:p10 md:max-w-xl lg:max-w-4xl 2xl:max-w-screen-2xl'
 
+
+    if(!AnimesData || (!AnimesData.data || AnimesData.data.length <= 0)){
+      console.log("loading...");
+      window.api.storageGet().then(data => {
+        setAnimesData(data)
+      })   
+    }
+  }, [AnimesData])
+
+
+  const str = 'md:p10 md:max-w-xl lg:max-w-4xl 2xl:max-w-screen-2xl'
+  console.log(AnimesData);
   return (
     
-  <div  className={`m-2 md:m-10 mt-24 p-2 ${activeMenu ? str : ''} dark:bg-main-dark-bg bg-white rounded-3xl `}>
+  <div  className={`dark:bg-main-dark-bg bg-white rounded-3xl`}>
     
     {AnimesData ? (<>
 
 
-        <Header category="Page" title="Animes List"/>
-        <div >
+      <Header category="Page" title="Animes List"/>
+      
 
-          <GridComponent
-            dataSource={animes.data && animes.data}
-           
-            allowPaging
-            pageSettings={{pageCount: 12, pageSize:16}}
-            allowFiltering={true}
-            filterSettings={filterOption}
-            allowSorting
-            
-            allowTextWrap
-            searchSettings={{ignoreCase: true}}
-           
-            
+        <GridComponent
+          dataSource={animes.data && animes.data}
+          allowPaging
+          pageSettings={{pageCount: 12, pageSize:16}}
+          allowFiltering={true}
+          filterSettings={filterOption}
+          editSettings={editOptions}
+          allowSorting
+          contextMenuItems={contextMenu}
+          contextMenuClick={contextMenuClick} 
+          recordClick={HandleRowClick} 
+          allowTextWrap
+          toolbar={['Search', 'Add', 'Edit', 'Delete', 'Cancel', 'Expand' , 'Collapse']}
+          searchSettings={{ignoreCase: true}}
+          width={"auto"}
           
-            >
-            <ColumnsDirective>
-              <ColumnDirective autoFit key={0} field='id' headerText='ID' />
-              {animes.format && animes.format.map((item, index) => {
-                if(item.field === 'Nome'){
+          >
+            
+          <ColumnsDirective >
+            <ColumnDirective autoFit key={0} field='id' headerText='ID' allowEditing={false} />
+            {animes.format && animes.format.map((item, index) => {
+
+
+              switch (item.field) {
+                case 'Nome':
                   return (
-                    <ColumnDirective  key={index}  {...item} textAlign='left' field='Nome.text' color={currentColor} template={animesGroupesLinks}  />
+                    <ColumnDirective   key={index}  {...item}  field='Nome.text' color={currentColor} template={animesGroupesLinks}  />
                   )
-                }
-                if(item.field === 'Gruppo'){
+                case 'Gruppo':
                   return (
                     <ColumnDirective  key={index}  {...item} field='Gruppo.text' color={currentColor} template={animesGroupesLinks}  />
                   )
-                }
+              
+                default:
+                  return (<ColumnDirective autoFit key={index}  {...item} />)
+                 
+              }
 
-                return (<ColumnDirective autoFit key={index}  {...item} />)
-              })}
-            </ColumnsDirective>
-            <Inject services={[Resize, Selection, Toolbar, Page, Sort, ContextMenu, Filter, ExcelExport, PdfExport, Edit]}/>
-          </GridComponent>
-        </div>
-      </>
+
+              
+            })}
+          </ColumnsDirective>
+          <Inject services={[Resize, Search, ContextMenu, Selection, Toolbar, Page, Sort, ContextMenu, Filter, ExcelExport, PdfExport, Edit]}/>
+        </GridComponent>
+      
+    </>
     ) :( <> <div className='text-center font-extrabold m-auto dark:text-slate-300'>
                <p className='text-3xl '>COULD NOT DISPLAY ANY DATA </p> 
                <p className='text-xl'>Make sure you load data first.</p>

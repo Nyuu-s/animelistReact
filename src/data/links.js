@@ -31,7 +31,7 @@ export const links = [
         },
         {
           name: 'animes details',
-          src: 'animesdetails',
+          src: 'animesdetails/1',
           icon: <TbListDetails />,
         },
       ],
