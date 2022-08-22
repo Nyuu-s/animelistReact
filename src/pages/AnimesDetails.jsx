@@ -9,7 +9,10 @@ import { Header, EditComponent } from '../components'
 const getAnimeInfo = (anime, mode=false) => {
   var res = []
   for(const key in anime){
-    if((key !== 'id' && key !== 'Nome' && key !== 'image') || mode)
+    if(!anime[key]){
+      anime[key] = ""
+    }
+    if( (key !== 'id' && key !== 'Nome' && key !== 'image') || mode)
    {    
       var value = anime[key].text ? anime[key].text : anime[key]
       if(anime[key].hyperlink)
@@ -19,6 +22,7 @@ const getAnimeInfo = (anime, mode=false) => {
       {
         res.push( {key, value} )
       }
+    
     }
   }
   

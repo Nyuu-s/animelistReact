@@ -82,7 +82,6 @@ const contextMenuClick = (args) =>{
 const contextMenu = [
   'Edit',
   'AutoFitAll',
-  {text:'More...', target:'.e-content', id:'details'}
 ]
 
 const HandleRowClick =(args) =>{
@@ -90,6 +89,8 @@ const HandleRowClick =(args) =>{
   console.log(args);
   navigate('/animesdetails/'+args.rowData.id)
 }
+
+
 
 
 const Animes = () => {
@@ -153,10 +154,19 @@ const Animes = () => {
           contextMenuClick={contextMenuClick} 
           recordClick={HandleRowClick} 
           allowTextWrap
-          toolbar={['Search', 'Add', 'Edit', 'Delete', 'Cancel', 'Expand' , 'Collapse']}
+          toolbar={['Search', 'Add', 'Delete']}
           searchSettings={{ignoreCase: true}}
           width={"auto"}
-          
+          actionBegin={(arg) => {
+           
+            console.log(arg);
+            if(arg.requestType === 'save'){
+              AnimesData.data[arg.rowData.id] = arg.data
+              console.log(AnimesData.data[arg.rowData.id] );
+              console.log(arg.data);
+            }
+            console.log(AnimesData);
+           }}
           >
             
           <ColumnsDirective >
