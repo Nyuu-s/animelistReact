@@ -24,32 +24,16 @@ import {
 import { Header, EditComponent } from '../components'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useStateContext } from '../contexts/ContextProvider'
+import { setValue } from '@syncfusion/ej2-base';
 
-let textColor = ''
-const animesNamesLinks = (props) => {
-  
-  return (
 
-  <div>
-    <button
-      className="underline cursor-pointer bg-transparent"
-      style={{color: textColor}}
-      onClick={(e) => {e.preventDefault();
-                       window.api.window.openInBrowser(props.Nome.hyperlink)
-                      }}
-      alt="anime-name"
-    >
-      {props.Nome.text}
-    </button>
-  </div>
-);
-}
+
 
 const animesGroupesLinks = (props) => {
   if(!props.Nome){
     return
   }
-  var haveLink = typeof props[`${props.column.headerText}`] === 'object' ? true : false
+  var haveLink = typeof props[`${props.column.headerText}`] === 'object' 
   var haveText = props[`${props.column.headerText}`].text != '' ? true : false
 
 
@@ -57,7 +41,7 @@ const animesGroupesLinks = (props) => {
     
     <div className='text-left'>
       {(haveText) ? <button
-        className="underline cursor-pointer bg-transparent text-left"
+        className={`${ props[`${props.column.headerText}`].hyperlink !== '' ? 'underline cursor-pointer' : 'cursor-default'}   bg-transparent text-left`}
         style={{color: props.column.color}}
         onClick={(e) => {e.preventDefault();
                           if(haveLink)
@@ -66,7 +50,7 @@ const animesGroupesLinks = (props) => {
         alt={`anime-link-${props.column.headerText}`}
       >
         { props[`${props.column.headerText}`].text}
-      </button> : 'random text'}
+      </button> : ''}
   </div>
 );
 }
@@ -108,6 +92,7 @@ const Animes = () => {
   }
 
   const dialogTemplate = (props) =>{
+    
     return (<EditComponent {...props}/>)
   }
 
@@ -115,7 +100,8 @@ const Animes = () => {
     allowDeleting: true,
     allowEditing: true,
     allowAdding: true,
-    mode: 'Dialog'
+    mode: 'Dialog',
+    template: dialogTemplate
   }
 
   useEffect(() => {
@@ -134,7 +120,7 @@ const Animes = () => {
   console.log(AnimesData);
   return (
     
-  <div  className={`dark:bg-main-dark-bg bg-white rounded-3xl`}>
+  <div  className={`dark:bg-main-dark-bg bg-white rounded-3xl h-full overflow-hidden`}>
     
     {AnimesData ? (<>
 
@@ -152,25 +138,54 @@ const Animes = () => {
           allowSorting
           contextMenuItems={contextMenu}
           contextMenuClick={contextMenuClick} 
-          recordClick={HandleRowClick} 
+          recordDoubleClick={HandleRowClick} 
           allowTextWrap
-          toolbar={['Search', 'Add', 'Delete']}
+          toolbar={['Search', 'Add', 'Delete', 'Clear']}
+          toolbarClick={(arg) => {  
+            if(arg.item.id === "grid_1228884828_0_Clear"){
+              setAnimesData({})
+              //TODO remove electron storage
+            }
+          }}
           searchSettings={{ignoreCase: true}}
           width={"auto"}
           actionBegin={(arg) => {
-           
             console.log(arg);
-            if(arg.requestType === 'save'){
-              AnimesData.data[arg.rowData.id] = arg.data
-              console.log(AnimesData.data[arg.rowData.id] );
-              console.log(arg.data);
+            switch (arg.requestType) {
+              case 'save':
+                if(arg.action === 'edit')
+                  AnimesData.data[arg.rowData.id] = arg.data
+                if(arg.action === 'add')
+
+                  var inputs = arg.form.querySelectorAll('input')
+                  inputs.forEach(item => 
+                    {
+                      setValue(`data.${item.id}`, item.value, arg)
+                      
+                      setValue(`data.id`, AnimesData.data.length, arg)
+                      setValue(`index`, AnimesData.data.length, arg)
+                     var splitname = item.id.split('-')
+                     if(splitname.length > 1){
+                      setValue(`data.${splitname[0]}`, {text: arg.data[splitname[0]], hyperlink: item.value}, arg)
+                     }
+                     
+
+                  
+
+                    }
+
+                  )
+                  console.log('Saved added line')
+                break;
+            
+              default:
+                break;
             }
-            console.log(AnimesData);
            }}
           >
-            
+            {/* "grid_1228884828_2_add" */}
           <ColumnsDirective >
-            <ColumnDirective autoFit key={0} field='id' headerText='ID' allowEditing={false} />
+            <ColumnDirective autoFit key={0} field={'id'} headerText='ID' allowEditing={false} />
             {animes.format && animes.format.map((item, index) => {
 
 

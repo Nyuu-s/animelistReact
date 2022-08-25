@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, {Suspense, useEffect, useState} from 'react'
 
 import { useStateContext } from '../contexts/ContextProvider'
 import { useParams } from 'react-router-dom'
 import {AiOutlineEdit} from 'react-icons/ai'
 
 import { Header, EditComponent } from '../components'
+const inputstyle = "mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 
 const getAnimeInfo = (anime, mode=false) => {
   var res = []
   for(const key in anime){
-    if(!anime[key]){
+    if(!anime[key] && anime[key] !== 0){
       anime[key] = ""
     }
     if( (key !== 'id' && key !== 'Nome' && key !== 'image') || mode)
@@ -55,30 +56,44 @@ const AnimesDetails = () => {
   const [editMode, setEditMode ] = useState(false)
   const {id} = useParams()
 
-  var curAnime = AnimesData.data[id]
+ 
+  var curAnime = AnimesData.data ?  AnimesData.data[id] : {}
 
   useEffect(() => {
-    if(!curAnime.image){
+    // curAnime = AnimesData.data[id]
+    if(!curAnime.image && AnimesData.data){
       window.api.getImage(curAnime.Nome.hyperlink).then(result => {
         curAnime['image'] = result
         setCurrentAnimeImage(result)
       })
     }
 
-  }, [curAnime])
+  }, [AnimesData])
   
  
-  console.log("testAnime" ,AnimesData);
+  
   return (
-    <div>
+    <div className='h-full overflow-hidden'>
       
-      <div className="flex w-full">
+      {AnimesData.data && <div className="flex w-full h-full">
 
         {!activeMenu && <div id='animeSidebar' className='w-1/3 bg-white'>
-          .
-        </div>}
+          {
+          AnimesData.data.map(item => {
+            
+             return (
+              <p key={item.id}>{item.Nome.text}</p>
+             )
+            
+            
+             
+          })
+          
+          
+          }
+      </div>}
 
-        <div id='animeInfos' className='ml-20' >
+        <div id='animeInfos' className='ml-20'  >
           <div className='flex' >
             {curAnime.Nome && <Header title={curAnime.Nome.text} link={curAnime.Nome.hyperlink} button={!editMode} buttonTitle={''} buttonFunc={() => setEditMode(handleEditMode(curAnime, editMode))} buttonIcon={<AiOutlineEdit/>}/>}
             { editMode && <div style={{color: currentColor}} className='text-xl mt-2  ml-10'>
@@ -93,9 +108,9 @@ const AnimesDetails = () => {
             }
             
           </div>
-          <div className='flex '>
+          <div className='flex h-fit'>
 
-            <div id='animeImage' className='w-2/3 h-72'>
+            <div id='animeImage' className='w-2/3 h-3/4'>
               <img className='h-full' src={curAnime.image || currentAnimeImage} alt="" />
             </div>
             <div className='ml-5'>
@@ -122,8 +137,8 @@ const AnimesDetails = () => {
                     
                     <p  className='text-slate-400 opacity-80'>{item.key}:</p>
                     <span id='inputs'>
-                      <input type="text" name={item.key} disabled={item.key === 'id'} className='bg-black bg-opacity-40 ' defaultValue={item.value} />
-                      {item.hyperlink && <input name={item.key} className='bg-black bg-opacity-40 ' defaultValue={item.hyperlink}/> }
+                      <input type="text" name={item.key} disabled={item.key === 'id'} className={inputstyle} defaultValue={item.value} />
+                      {item.hyperlink && <input name={item.key} className={inputstyle} defaultValue={item.hyperlink}/> }
                     </span>
                   </li>)) 
                   
@@ -138,7 +153,7 @@ const AnimesDetails = () => {
         </div>
 
 
-      </div>
+      </div>}
 
 
 
