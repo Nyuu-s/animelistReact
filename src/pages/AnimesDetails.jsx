@@ -62,6 +62,7 @@ const AnimesDetails = () => {
 
   useEffect(() => {
     // curAnime = AnimesData.data[id]
+   
     if(!curAnime.image && AnimesData.data){
       window.api.getImage(curAnime.Nome.hyperlink).then(result => {
         curAnime['image'] = result
@@ -69,12 +70,12 @@ const AnimesDetails = () => {
       })
     }
 
-  }, [AnimesData])
+  }, [AnimesData, curAnime])
   
  
   
   return (
-    <div className='h-full overflow-hidden'>
+    <div>
       
       {AnimesData.data && <div className="flex w-full h-full">
 

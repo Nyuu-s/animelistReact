@@ -1,9 +1,24 @@
 import React , {useState} from 'react'
+import debounce from 'lodash.debounce';
 
 import { useStateContext } from '../contexts/ContextProvider'
+import { NavLink } from 'react-router-dom';
+
+
+function search(querry, data){
+    var list = []
+    data.map(item => {
+        if(item.Nome.text.toLowerCase().includes(querry.toLowerCase())){
+            
+            list.push(item)
+        }
+    })
+    return list
+}
 
 function AnimesFilters({data, headers}) {
     const [currentMenu, setCurrentMenu] = useState('filters')
+    const [currentList, setCurrentList] = useState([...data])
     const {currentColor} = useStateContext()
     
 
@@ -13,32 +28,51 @@ function AnimesFilters({data, headers}) {
             <ul className='flex text-center font-bold  ' >
                 <li style={{borderRight: 'solid 2px', borderColor: currentColor}} className='w-1/3 border-r-2 border-slate-800'><button onClick={() => setCurrentMenu('animes')}> Animes </button> </li>
                 <li style={{borderRight: 'solid 2px', borderColor: currentColor}} className='w-1/3 border-r-2 border-slate-800'><button  onClick={() => setCurrentMenu('filters')}> Filters </button></li>
-                <li className='w-1/3'><button> Test </button></li>
+                <li className='w-1/3'><button> Other button </button></li>
             </ul>
         </div>
     
-        { currentMenu === 'filters' ? headers.map((item, i) => { 
-            if(item != "id" && item != 'image'){
-                return(
-                    
-                    <p key={i} style={{borderBottom: 'solid 2px', borderColor: currentColor}} className=' mr-1  rounded-md hover:shadow-lg dark:text-white mb-2 border-b-2 dark:hover:bg-slate-700 dark:bg-secondary-dark-bg'>
-                        <button className='font-bold mb-3 pt-2 ml-3' >{item}</button>
-                    </p>  
-                )
-            }
+        { currentMenu === 'filters' ? (
+          
+            headers.map((item, i) => { 
+                if(item != "id" && item != 'image'){
+                    return(
+                        
+                        <p key={i} style={{borderBottom: 'solid 2px', borderColor: currentColor}} className=' mr-1  rounded-md hover:shadow-lg dark:text-white mb-2 border-b-2 dark:hover:bg-slate-700 dark:bg-secondary-dark-bg'>
+                            <button className='font-bold mb-3 pt-2 ml-3' >{item}</button>
+                        </p>  
+                    )
+                }
+
+            }) 
+            ) : ''
+        }
+
+        { currentMenu === 'animes' ? <div className='w-full items-center'>
+            
+            <input  className='ml-3 dark:text-white mb-3 p-1 dark:bg-main-dark-bg rounded-md w-5/6'  type="text" placeholder='Search'  onChange={debounce((arg) => {
+                setCurrentList(search(arg.target.value, data))
+            }, 300)} />
+            
+        </div> : '' }
+        <div className='overflow-y-auto h-screen'>
+                
+            { currentMenu === 'animes' ? (
     
-             }) : ''
-        }
+                currentList.map((item, i) => 
+                {
+                    return(
+                        
+                            
+                        <NavLink key={i} to={`/animesdetails/${item.id}`} >
 
-
-        { currentMenu === 'animes' ? data.map((item, i) => 
-            {
-                return(
-
-                    <p className=' ml-3 rounded-md hover:shadow-lg dark:text-white pb-2 hover:cursor-pointer dark:hover:bg-slate-700 dark:bg-secondary-dark-bg'key={i} >{item.Nome.text}</p>
-                )
-            }) : ''
-        }
+                            <p className='ml-3  rounded-md hover:shadow-lg dark:text-white pb-2 hover:cursor-pointer dark:hover:bg-slate-700 dark:bg-secondary-dark-bg' >{item.Nome.text}</p>
+                        </NavLink>
+                      
+                    )
+                })) : ''
+            }
+        </div>
         
 
         
