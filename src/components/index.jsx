@@ -9,3 +9,4 @@ export { default as UserProfile } from './UserProfile';
 export { default as Header } from './Header';
 export { default as EditComponent } from './EditComponent';
 export { default as CustomDataGrid } from './CustomDataGrid';
+export { default as AnimesFilters } from './AnimesFilters';

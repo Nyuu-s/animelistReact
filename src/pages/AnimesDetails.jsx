@@ -4,7 +4,7 @@ import { useStateContext } from '../contexts/ContextProvider'
 import { useParams } from 'react-router-dom'
 import {AiOutlineEdit} from 'react-icons/ai'
 
-import { Header, EditComponent } from '../components'
+import { Header, AnimesFilters } from '../components'
 const inputstyle = "mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 
 const getAnimeInfo = (anime, mode=false) => {
@@ -58,6 +58,7 @@ const AnimesDetails = () => {
 
  
   var curAnime = AnimesData.data ?  AnimesData.data[id] : {}
+  var headers = Object.keys(curAnime)
 
   useEffect(() => {
     // curAnime = AnimesData.data[id]
@@ -77,20 +78,8 @@ const AnimesDetails = () => {
       
       {AnimesData.data && <div className="flex w-full h-full">
 
-        {!activeMenu && <div id='animeSidebar' className='w-1/3 bg-white'>
-          {
-          AnimesData.data.map(item => {
-            
-             return (
-              <p key={item.id}>{item.Nome.text}</p>
-             )
-            
-            
-             
-          })
-          
-          
-          }
+        {!activeMenu && <div id='animeSidebar' className='w-1/3 bg-white dark:bg-secondary-dark-bg'>
+        <AnimesFilters data={AnimesData.data} headers={headers}></AnimesFilters>
       </div>}
 
         <div id='animeInfos' className='ml-20'  >
