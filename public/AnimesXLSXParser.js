@@ -1,5 +1,6 @@
 
 const Excel = require('exceljs')
+const el = require('electron')
 
 
 const parseAnimeXLSX = async (path) => {
@@ -30,7 +31,7 @@ const parseAnimeXLSX = async (path) => {
     Rows.map((row, id) => {
         var rowValue = row.values.splice(1)
         var rowObj = {}
-        
+        el.webContents.fromId(1).send('ping', ((id / Rows.length) * 100))
         if(rowValue.length > 0){
 
             columnsTitle.map((item, i) => {

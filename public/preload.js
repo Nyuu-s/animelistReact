@@ -12,6 +12,9 @@ const { MdOpenInBrowser } = require('react-icons/md')
 // })
 
 
+
+
+
 contextBridge.exposeInMainWorld(
   'api',
   {
@@ -23,9 +26,14 @@ contextBridge.exposeInMainWorld(
     openFile: () => ipcRenderer.invoke('dialog:open-file'),
     parseAnimes: (path) => ipcRenderer.invoke('parser:xslx', path),
     storageGet: () => ipcRenderer.invoke('storage:read-data'),
-    getImage: (url) => ipcRenderer.invoke('data:get-image', url)
+    getImage: (url) => ipcRenderer.invoke('data:get-image', url),
+    recieve: (channel, func) => ipcRenderer.on(
+      channel,
+      (event, ...args) => func(args)
+    )
     
-    
+ 
 
-
-  })
+  
+  }
+  )

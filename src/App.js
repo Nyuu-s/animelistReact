@@ -31,7 +31,7 @@ const App = () => {
    <div id='appbody' className={currentMode === 'Dark' ? 'dark' : '' }>
 
       <HashRouter>
-        <div className="flex relative h-screen overflow-hidden dark:bg-main-dark-bg">
+        <div className="flex relative h-screen overflow-clip dark:bg-main-dark-bg">
           <div className='fixed right-4 bottom-4' style={{zIndex:'1000'}}>
 
             <TooltipComponent content={"Settings"} position="Top">
@@ -70,7 +70,7 @@ const App = () => {
             </div>
           
 
-          <div className='h-screen overflow-hidden'>
+          <div className='overflow-hidden'>
             
             { themeSettings && <ThemeSettings /> }
 

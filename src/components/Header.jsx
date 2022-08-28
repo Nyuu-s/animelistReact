@@ -13,7 +13,7 @@ const Header = ({category, title, link, button, buttonTitle, buttonIcon, buttonF
         <p  style={{color: currentColor}} 
             className={`text-3xl font-extrabold tracking-tight text-slate-900 ${linkclass}`}
             onClick={(e) => {
-              if(link){
+              if(link && link.startsWith('http')){
                 e.preventDefault()
                 window.api.window.openInBrowser(link)
               }

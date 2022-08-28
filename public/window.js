@@ -8,7 +8,6 @@
 // CLOSE_BUTTON.addEventListener('click', () => {
 //     api.window.closeApp(true)
 // })
-
 const Store = require('electron-store')
 const cheerio = require('cheerio')
 const axios = require('axios');

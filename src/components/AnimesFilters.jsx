@@ -17,13 +17,13 @@ function search(querry, data){
 }
 
 function AnimesFilters({data, headers}) {
-    const [currentMenu, setCurrentMenu] = useState('filters')
+    const [currentMenu, setCurrentMenu] = useState('animes')
     const [currentList, setCurrentList] = useState([...data])
     const {currentColor} = useStateContext()
     
 
   return (
-    <div>
+    <div style={{height: '80vh'}}>
         <div id='categories' style={{borderBottom: 'solid 4px', borderColor: currentColor}} className='mb-5 p-5 dark:text-white'>
             <ul className='flex text-center font-bold  ' >
                 <li style={{borderRight: 'solid 2px', borderColor: currentColor}} className='w-1/3 border-r-2 border-slate-800'><button onClick={() => setCurrentMenu('animes')}> Animes </button> </li>
@@ -38,7 +38,7 @@ function AnimesFilters({data, headers}) {
                 if(item != "id" && item != 'image'){
                     return(
                         
-                        <p key={i} style={{borderBottom: 'solid 2px', borderColor: currentColor}} className=' mr-1  rounded-md hover:shadow-lg dark:text-white mb-2 border-b-2 dark:hover:bg-slate-700 dark:bg-secondary-dark-bg'>
+                        <p key={i} style={{borderBottom: 'solid 2px', borderColor: currentColor}} className=' mr-1   hover:shadow-lg dark:text-white mb-2 border-b-2 dark:hover:bg-slate-700 dark:bg-secondary-dark-bg'>
                             <button className='font-bold mb-3 pt-2 ml-3' >{item}</button>
                         </p>  
                     )
@@ -48,30 +48,36 @@ function AnimesFilters({data, headers}) {
             ) : ''
         }
 
-        { currentMenu === 'animes' ? <div className='w-full items-center'>
+        { currentMenu === 'animes' ? <div className='w-full items-center h-10'>
             
             <input  className='ml-3 dark:text-white mb-3 p-1 dark:bg-main-dark-bg rounded-md w-5/6'  type="text" placeholder='Search'  onChange={debounce((arg) => {
                 setCurrentList(search(arg.target.value, data))
             }, 300)} />
             
         </div> : '' }
-        <div className='overflow-y-auto h-screen'>
-                
-            { currentMenu === 'animes' ? (
-    
-                currentList.map((item, i) => 
-                {
-                    return(
-                        
-                            
-                        <NavLink key={i} to={`/animesdetails/${item.id}`} >
+        <div className='h-full' >
+            <ul className='overflow-auto h-full'>
 
-                            <p className='ml-3  rounded-md hover:shadow-lg dark:text-white pb-2 hover:cursor-pointer dark:hover:bg-slate-700 dark:bg-secondary-dark-bg' >{item.Nome.text}</p>
-                        </NavLink>
-                      
-                    )
-                })) : ''
-            }
+               
+                { currentMenu === 'animes' ? (
+        
+                    currentList.map((item, i) => 
+                    {
+                        return(
+                            
+                                <li>
+
+                                    <NavLink key={i} to={`/animesdetails/${item.id}`} >
+
+                                    <p className='ml-3  rounded-md hover:shadow-lg dark:text-white pb-2 hover:cursor-pointer dark:hover:bg-slate-700 dark:bg-secondary-dark-bg' >{item.Nome.text}</p>
+                                    </NavLink>
+                                </li>
+    
+                        
+                        )
+                    })) : ''
+                }
+            </ul>
         </div>
         
 
