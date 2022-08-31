@@ -1,6 +1,7 @@
 
 const {app, BrowserWindow, dialog, Menu, shell} = require('electron');
 const {autoUpdater} = require('electron-updater')
+const log = require('electron-log')
 const { ipcMain } = require('electron/main');
 const path = require('path')
 const { Parser } = require('./AnimesXLSXParser')
@@ -9,14 +10,24 @@ const Store = require('electron-store');
 const isProd = app.isPackaged
 
 
+autoUpdater.logger = log
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 const storage = new Store()
 require('electron-reload')(__dirname)
 
 let win
+
+function sendStatusToWindow(text) {
+    log.info(text);
+    win.webContents.send('message', text);
+  }
+
 const localhost =  !isProd ? 'http://localhost:3000' : `file:\\${path.join(__dirname, '../build/index.html')}`
 function createWindow(){
     const bounds = getWindowBounds();
     const position = getWindowPosition();
+    
     win = new BrowserWindow({
         width: bounds[0],
         height: bounds[1],
@@ -45,11 +56,40 @@ function createWindow(){
 
 
     win.loadURL(localhost)
-   
     
-
 }
+
+//UPDATES PART
+autoUpdater.autoDownload = false
+autoUpdater.on('error', (error) => {
+    dialog.showErrorBox('Error: ', error == null ? "unknown" : (error.stack || error).toString())
+})
+
+autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for update...');
+})
+
+autoUpdater.on('update-not-available', () => {
+    sendStatusToWindow('Update not available.');
+})
+
+autoUpdater.on('update-available', async () =>{
+    sendStatusToWindow('Update available.');
+    const dialogResponse = await dialog.showMessageBox({
+        type: 'info',
+        title: 'Found Updates',
+        message: 'Upates available, would you like to download it now ?',
+        buttons: ['Yes', 'No']
+    })
+    if(dialogResponse === 0){
+        autoUpdater.downloadUpdate()
+    }
+
+})
+
+
 const handleOpenFile = async () => {
+    
     const { canceled, filePaths } = await dialog.showOpenDialog(win,{filters: [ {name: 'Excel', extensions: ['xlsx']}]})
     if (canceled) 
         return
@@ -69,6 +109,7 @@ const handleCloseApp = async ( _ , savedContent) => {
 }
 
 const handleMinimize = async () => {
+    
     win.minimize()
 }
 
@@ -105,6 +146,8 @@ app.on('ready', () => {
     ipcMain.handle('storage:read-data', handleStorageAccess);
     ipcMain.handle('parser:xslx', handleParseAnimes);
     ipcMain.handle('data:get-image', handleGetImageURL);
+
+
     
     createWindow();
     const template = [
@@ -168,30 +211,5 @@ app.on('window-all-closed', () => {
     }
 });
 
-//UPDATES PART
-autoUpdater.autoDownload = false
-autoUpdater.on('error', (error) => {
-    dialog.showErrorBox('Error: ', error == null ? "unknown" : (error.stack || error).toString())
-  })
 
-autoUpdater.on('checking-for-update', () => {
-    win.webContents.send('updates:channel', 'Checking for updates...')
-})
-
-autoUpdater.on('update-not-available', () => {
-    win.webContents.send('updates:channel', 'No updates avaible')
-})
-
-autoUpdater.on('update-available', async () =>{
-    const dialogResponse = await dialog.showMessageBox({
-        type: 'info',
-        title: 'Found Updates',
-        message: 'Upates available, would you like to download it now ?',
-        buttons: ['Yes', 'No']
-    })
-    if(dialogResponse === 0){
-        autoUpdater.downloadUpdate()
-    }
-
-  })
 

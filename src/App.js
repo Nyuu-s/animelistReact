@@ -10,7 +10,7 @@ import './App.css'
 import { useStateContext } from './contexts/ContextProvider'
 import LoadData from './pages/LoadData'
 
-
+let {api} = window
 
 
 
@@ -27,8 +27,9 @@ const App = () => {
   
   }, [])
 
-  window.api.recieve('updates:channel', (args) => {
-    setTestState(args)
+  api.recieve('message', (args) => {
+   
+    setTestState(args[0])
   })
   
   return (
