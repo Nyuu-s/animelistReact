@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { FiSettings } from 'react-icons/fi'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
@@ -19,12 +19,17 @@ const App = () => {
 
   
   const {activeMenu, setAnimesData, themeSettings, currentColor, currentMode} = useStateContext();
+  const [testState, setTestState] = useState('test')
   useEffect(() => {
     window.api.storageGet().then(data => {
       setAnimesData(data)
     })  
   
   }, [])
+
+  window.api.recieve('updates:channel', (args) => {
+    setTestState(args)
+  })
   
   return (
     
@@ -65,6 +70,7 @@ const App = () => {
               : 'flex-2'}`
             
           }>
+            <div> {testState} </div>
             <div className='fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full z-10'>
               <Navbar />
             </div>

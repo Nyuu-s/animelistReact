@@ -1,7 +1,11 @@
 {
-  "name": "animelist",
-  "version": "0.1.0",
+  "name": "animes",
+  "version": "0.1.1",
   "private": true,
+  "description": "Animes list imported from excel files t",
+  "author": {
+    "name": "rox"
+  },
   "dependencies": {
     "@electron/remote": "^0.0.1",
     "@emotion/react": "^11.10.0",
@@ -23,6 +27,7 @@
     "cheerio": "^1.0.0-rc.12",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-store": "^8.1.0",
+    "electron-updater": "^5.2.1",
     "exceljs": "^4.3.0",
     "lodash.debounce": "^4.0.8",
     "react": "^18.2.0",
@@ -43,7 +48,8 @@
     "eject": "react-scripts eject",
     "e:start": "electron .",
     "e:build": "npm run build && electron-builder -c.extraMetadata.main=build/main.js",
-    "e:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run e:start\""
+    "e:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run e:start\"",
+    "e:publish": "npm run build && electron-builder -c.extraMetadata.main=build/main.js -p always"
   },
   "build": {
     "appId": "WeebAnimesList",
@@ -57,13 +63,20 @@
       "target": [
         "nsis"
       ],
+      "publish": [
+        {
+          "provider": "github",
+          "owner": "Nyuu-s",
+          "repo": "animelistReact"
+        }
+      ],
       "icon": "icon.ico"
     },
     "nsis": {
       "oneClick": true,
       "installerIcon": "icon.ico",
       "uninstallerIcon": "icon.ico",
-      "uninstallDisplayName": "WAL-Uninstall",
+      "uninstallDisplayName": "AnimesV8_Uninstall",
       "license": "license.md",
       "allowToChangeInstallationDirectory": false
     }
