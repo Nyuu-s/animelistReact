@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, app } = require('electron')
 const fs = require('fs')
 const { MdOpenInBrowser } = require('react-icons/md')
 
@@ -12,7 +12,7 @@ const { MdOpenInBrowser } = require('react-icons/md')
 // })
 
 
-
+console.log(app);
 
 
 contextBridge.exposeInMainWorld(
@@ -27,6 +27,7 @@ contextBridge.exposeInMainWorld(
     parseAnimes: (path) => ipcRenderer.invoke('parser:xslx', path),
     storageGet: () => ipcRenderer.invoke('storage:read-data'),
     getImage: (url) => ipcRenderer.invoke('data:get-image', url),
+    getVersion: () => ipcRenderer.invoke('version'),
     recieve: (channel, func) => ipcRenderer.on(
       channel,
       (event, ...args) => func(args)

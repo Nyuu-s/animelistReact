@@ -18,6 +18,8 @@ export const ContextProvider = ({ children }) => {
     const [themeSettings, setThemeSettings] = useState(false);
     const [AnimesData, setAnimesData] = useState({});
     const [editStack, setEditStack] = useState(undefined);
+    const [version, setVersion] = useState(undefined);
+    const [notifications, setNotifications] = useState([])
 
 
     const setMode = (e) => {
@@ -51,7 +53,9 @@ export const ContextProvider = ({ children }) => {
             themeSettings, setThemeSettings,
             setMode, setColor,
             AnimesData, setAnimesData,
-            editStack, setEditStack
+            editStack, setEditStack,
+            notifications, setNotifications,
+            version, setVersion
             
         }}
         >

@@ -20,8 +20,12 @@ let win
 
 function sendStatusToWindow(text) {
     log.info(text);
-    win.webContents.send('message', text);
-  }
+    win.webContents.send('update:message', text);
+}
+function sendStatusToWindowChannel(channel, text) {
+    log.info(text);
+    win.webContents.send(channel, text);
+}
 
 const localhost =  !isProd ? 'http://localhost:3000' : `file:\\${path.join(__dirname, '../build/index.html')}`
 function createWindow(){
@@ -54,8 +58,9 @@ function createWindow(){
   
     win.on('ready-to-show', win.show)
 
-
+ 
     win.loadURL(localhost)
+    
     
 }
 
@@ -81,11 +86,26 @@ autoUpdater.on('update-available', async () =>{
         message: 'Upates available, would you like to download it now ?',
         buttons: ['Yes', 'No']
     })
-    if(dialogResponse === 0){
+    if(dialogResponse.response === 0){
         autoUpdater.downloadUpdate()
     }
 
 })
+autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    sendStatusToWindowChannel('update:download', log_message);
+  })
+
+autoUpdater.on('update-downloaded', () => {
+    dialog.showMessageBox({
+      title: 'Install Updates',
+      message: 'Updates downloaded, application will be quit for update...'
+    }).then(() => {
+      setImmediate(() => autoUpdater.quitAndInstall())
+    })
+  })
 
 
 const handleOpenFile = async () => {
@@ -133,10 +153,10 @@ const handleOpenInBrowser = (event, uri) => {
 const handleGetImageURL = async (_, url) => {
     return (await getImageUrl(url))
 }
+const handleGetVersion = () => {
+    return app.getVersion()
+}
 
-autoUpdater.on('update-available', () => {
-    
-})
 
 app.on('ready', () => {
     ipcMain.handle('dialog:open-file', handleOpenFile);
@@ -146,10 +166,13 @@ app.on('ready', () => {
     ipcMain.handle('storage:read-data', handleStorageAccess);
     ipcMain.handle('parser:xslx', handleParseAnimes);
     ipcMain.handle('data:get-image', handleGetImageURL);
+    ipcMain.handle('version', handleGetVersion);
 
 
     
     createWindow();
+    
+    autoUpdater.checkForUpdates()
     const template = [
         {
             label: 'File',

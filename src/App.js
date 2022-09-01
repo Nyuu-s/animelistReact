@@ -18,20 +18,20 @@ let {api} = window
 const App = () => {
 
   
-  const {activeMenu, setAnimesData, themeSettings, currentColor, currentMode} = useStateContext();
-  const [testState, setTestState] = useState('test')
+  const {activeMenu, setAnimesData, themeSettings, currentColor, currentMode, setVersion} = useStateContext();
+ 
   useEffect(() => {
-    window.api.storageGet().then(data => {
+    api.storageGet().then(data => {
       setAnimesData(data)
-    })  
-  
+    }) 
+    api.getVersion().then(result => {
+      console.log(result);
+      setVersion(result) 
+    })
+    
   }, [])
 
-  api.recieve('message', (args) => {
-   
-    setTestState(args[0])
-  })
-  
+
   return (
     
    <div id='appbody' className={currentMode === 'Dark' ? 'dark' : '' }>
@@ -71,7 +71,7 @@ const App = () => {
               : 'flex-2'}`
             
           }>
-            <div> {testState} </div>
+            
             <div className='fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full z-10'>
               <Navbar />
             </div>
