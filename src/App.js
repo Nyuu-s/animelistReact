@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { FiSettings } from 'react-icons/fi'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
 import {Navbar, Sidebar, ThemeSettings} from './components'
-import {Landing, Animes, AnimesTest, AnimesDetails, Calendar, Customers, Kanban, ColorPicker} from './pages'
+import {Landing, Animes, AnimesTest, AnimesDetails, Calendar, ColorPicker} from './pages'
 
 import './App.css'
 
@@ -26,10 +26,10 @@ const App = () => {
     }) 
     api.getVersion().then(result => {
       console.log(result);
-      setVersion(result) 
+      setVersion(result)  
     })
     
-  }, [])
+  }, [setAnimesData, setVersion])
 
 
   return (
@@ -91,11 +91,10 @@ const App = () => {
               <Route path="/animestest" element={<AnimesTest/>}/>
               <Route path="/animesdetails/:id" element={<AnimesDetails/>}/>
               <Route path="/themes" element={<ThemeSettings/>}/>
-              <Route path="/customers" element={<Customers/>}/>
+              
 
               {/* APPS */}
 
-              <Route path="/todo-list" element={<Kanban/>}/>
               <Route path="/color-picker" element={<ColorPicker/>}/>
               <Route path="/calendar" element={<Calendar/>}/> 
               <Route path="/load-data" element={<LoadData/>}/> 

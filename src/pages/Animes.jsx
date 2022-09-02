@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import { useNavigate } from 'react-router-dom';
 import {
     GridComponent,
@@ -34,7 +34,7 @@ const animesGroupesLinks = (props) => {
     return
   }
   var haveLink = typeof props[`${props.column.headerText}`] === 'object' 
-  var haveText = props[`${props.column.headerText}`].text != '' ? true : false
+  var haveText = props[`${props.column.headerText}`].text !== '' ? true : false
 
 
   return (
@@ -78,8 +78,7 @@ const HandleRowClick =(args) =>{
 
 
 const Animes = () => {
-  const {AnimesData, setAnimesData, activeMenu, currentColor} = useStateContext()
-  var isHidden = false
+  const {AnimesData, setAnimesData, currentColor} = useStateContext()
   navigate = useNavigate()
 
   
@@ -113,10 +112,10 @@ const Animes = () => {
         setAnimesData(data)
       })   
     }
-  }, [AnimesData])
+  }, [AnimesData, setAnimesData])
 
 
-  const str = 'md:p10 md:max-w-xl lg:max-w-4xl 2xl:max-w-screen-2xl'
+  // const str = 'md:p10 md:max-w-xl lg:max-w-4xl 2xl:max-w-screen-2xl'
   console.log(AnimesData);
   return (
     
@@ -152,7 +151,7 @@ const Animes = () => {
           actionBegin={(arg) => {
             console.log(arg);
             switch (arg.requestType) {
-              case 'save':
+              case 'save': 
                 if(arg.action === 'edit')
                   AnimesData.data[arg.rowData.id] = arg.data
                 if(arg.action === 'add')

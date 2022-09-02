@@ -1,6 +1,4 @@
 import React from 'react'
-import { BsCurrencyEuro } from 'react-icons/bs'
-import {GoPrimitiveDot} from 'react-icons/go'
 import { Button } from '../components'
 import { earningData } from '../data/dummy'
 
@@ -19,7 +17,7 @@ const Landing = () => {
                 <p className='text-2xl'>700 000€</p>
               </div>
             </div>
-            <div className='mt-6'>
+            <div className='mt-6'> 
               <Button 
                 color='white' 
                 bgColor={currentColor} 

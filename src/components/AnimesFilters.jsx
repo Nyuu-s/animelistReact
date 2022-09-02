@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 
 function search(querry, data){
     var list = []
-    data.map(item => {
+    data.forEach(item => {
         if(item.Nome.text.toLowerCase().includes(querry.toLowerCase())){
             
             list.push(item)
@@ -20,7 +20,7 @@ function AnimesFilters({data, headers}) {
     const [currentMenu, setCurrentMenu] = useState('animes')
     const [currentList, setCurrentList] = useState([...data])
     const {currentColor} = useStateContext()
-    
+     
 
   return (
     <div style={{height: '80vh'}}>
@@ -35,7 +35,7 @@ function AnimesFilters({data, headers}) {
         { currentMenu === 'filters' ? (
           
             headers.map((item, i) => { 
-                if(item != "id" && item != 'image'){
+                if(item !== "id" && item !== 'image'){
                     return(
                         
                         <p key={i} style={{borderBottom: 'solid 2px', borderColor: currentColor}} className=' mr-1   hover:shadow-lg dark:text-white mb-2 border-b-2 dark:hover:bg-slate-700 dark:bg-secondary-dark-bg'>
@@ -43,7 +43,7 @@ function AnimesFilters({data, headers}) {
                         </p>  
                     )
                 }
-
+                return ''
             }) 
             ) : ''
         }
@@ -65,9 +65,9 @@ function AnimesFilters({data, headers}) {
                     {
                         return(
                             
-                                <li>
+                                <li key={i}>
 
-                                    <NavLink key={i} to={`/animesdetails/${item.id}`} >
+                                    <NavLink  to={`/animesdetails/${item.id}`} >
 
                                     <p className='ml-3  rounded-md hover:shadow-lg dark:text-white pb-2 hover:cursor-pointer dark:hover:bg-slate-700 dark:bg-secondary-dark-bg' >{item.Nome.text}</p>
                                     </NavLink>

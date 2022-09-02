@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import { SiWebtoon as Test } from 'react-icons/si';
 import { MdOutlineCancel} from 'react-icons/md';
@@ -8,7 +8,7 @@ import { FiSettings } from 'react-icons/fi';
 
 import { links } from '../data/links';
 
-const {api} = window
+
 
 
 
@@ -29,7 +29,7 @@ const Sidebar = () => {
 
 
   return (
-    <div className='ml-3 h-screen
+    <div className='ml-3 h-screen 
     md:overflow-hidden overflow-auto
     md:hover:overflow-auto pb-10'
     

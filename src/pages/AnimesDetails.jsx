@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useState} from 'react'
+import React, {useMemo, useEffect, useState} from 'react'
 
 import { useStateContext } from '../contexts/ContextProvider'
 import { useParams } from 'react-router-dom'
@@ -9,22 +9,27 @@ const inputstyle = "mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm
 
 const getAnimeInfo = (anime, mode=false) => {
   var res = []
- 
+  var isLinguaIta = anime['Lingua'] === 'Ita'
+  var isSupportoOriginal = anime['Supporto'].toLowerCase().includes('originale')
+  var isRezVisible = true
+  var isGruppoVisible =true
   for(const key in anime){
     if(!anime[key] && anime[key] !== 0){
       anime[key] = ""
     }
-    if( (key !== 'id' && key !== 'Nome' && key !== 'image') || mode)
-   {    
-      var value = anime[key].text !== undefined ? anime[key].text : anime[key]
-      if(anime[key].hyperlink !== undefined)
-      {
-        res.push( {key, value, hyperlink: anime[key].hyperlink} )
-      }else
-      {
-        res.push( {key, value} )
-      }
-    
+    isGruppoVisible = !isLinguaIta || key !== 'Gruppo'
+    isRezVisible = !isSupportoOriginal || key !== 'Risoluzione'
+    if( (key !== 'id' && key !== 'Nome' && key !== 'image' && isGruppoVisible && isRezVisible) || mode)
+    {    
+        var value = anime[key].text !== undefined ? anime[key].text : anime[key]
+        if(anime[key].hyperlink !== undefined)
+        {
+          res.push( {key, value, hyperlink: anime[key].hyperlink} )
+        }else
+        {
+          res.push( {key, value} )
+        }
+      
     }
   }
   
@@ -61,16 +66,16 @@ const handleEditMode = (anime, mode) => {
 }
 
 const AnimesDetails = () => {
-  const {activeMenu, AnimesData, setAnimesData, currentColor} = useStateContext()
+  const {activeMenu, AnimesData, currentColor} = useStateContext()
   const [currentAnimeImage, setCurrentAnimeImage ] = useState([])
   const [editMode, setEditMode ] = useState(false)
   const {id} = useParams()
 
- 
-  var curAnime = AnimesData.data ?  AnimesData.data[id] : {}
+   
+  var curAnime =  useMemo(() => AnimesData.data ?  AnimesData.data[id] : {}, [AnimesData.data, id])
   var headers = Object.keys(curAnime)
 
-  useEffect(() => {
+  useEffect(() => { 
     // curAnime = AnimesData.data[id]
    
     if((!curAnime.image && AnimesData.data) && curAnime.Nome.hyperlink){
@@ -119,9 +124,9 @@ const AnimesDetails = () => {
                 { !editMode ? getAnimeInfo(curAnime).map((item, i) => {
                  
                   return(
-                    <li key={i} className='
-                        font-bold p-2 dark:text-gray-300
-                        ' >
+                    <li key={i} className={
+                        `font-bold p-2 dark:text-gray-300`
+                        } >
                       <p className={`text-slate-400 opacity-80 ${item.hyperlink ? 'cursor-pointer': '' }`}>{item.key}:</p> 
                       <p 
                         className={`${item.hyperlink ? 'cursor-pointer hover:text-slate-400 underline': '' }`}

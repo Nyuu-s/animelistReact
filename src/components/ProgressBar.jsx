@@ -1,5 +1,5 @@
 
-import React , { useEffect }from 'react'
+import React from 'react'
 
 
 const ProgressBar = (props) => {
@@ -12,7 +12,7 @@ const ProgressBar = (props) => {
           <div  style={{backgroundColor: color,  height: `100%`,width: `${completed <= 100 ? completed : '100'}%`, borderRadius: 'inherit', transition: 'width 0.5s ease-in-out' }}
                 
           >
-          </div>
+          </div> 
 
         </div>
         <div className='text-white text-center font-extrabold' style={{width: `${lenght}%`}} >{completed}%</div>

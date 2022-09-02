@@ -5,7 +5,7 @@ import React from 'react'
 
 const AnimesTest = () => {
   return (
-  <div>
+  <div> 
     
   </div>
   )

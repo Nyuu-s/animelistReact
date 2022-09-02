@@ -2,11 +2,11 @@ import React from 'react'
 import { useStateContext } from '../contexts/ContextProvider'
 
 const Header = ({category, title, link, button, buttonTitle, buttonIcon, buttonFunc}) => {
-  const {currentColor, currentMode} = useStateContext()
+  const {currentColor} = useStateContext()
   var linkclass = link ? 'cursor-pointer' : ''
   return (
     <div className='mb-10'>
-      <p className='text-gray-400'>
+      <p className='text-gray-400'> 
         {category}
       </p>
       <div className='flex'>

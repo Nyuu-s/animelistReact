@@ -92,16 +92,14 @@ autoUpdater.on('update-available', async () =>{
 
 })
 autoUpdater.on('download-progress', (progressObj) => {
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    let log_message = 'Downloaded: ' + progressObj.percent + '%';
     sendStatusToWindowChannel('update:download', log_message);
   })
 
 autoUpdater.on('update-downloaded', () => {
     dialog.showMessageBox({
       title: 'Install Updates',
-      message: 'Updates downloaded, application will be quit for update...'
+      message: 'Ready to install, the application will now restart'
     }).then(() => {
       setImmediate(() => autoUpdater.quitAndInstall())
     })

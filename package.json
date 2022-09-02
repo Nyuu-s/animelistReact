@@ -1,6 +1,6 @@
 {
   "name": "animes",
-  "version": "0.2.3",
+  "version": "0.2.1",
   "private": true,
   "description": "Animes list imported from excel files ",
   "author": {

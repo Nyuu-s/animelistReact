@@ -7,18 +7,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useStateContext } from '../contexts/ContextProvider'
 const {api} = window
 
-var path = ''
+
 const setFileFeedBack = (text) => {
   const element = document.getElementById('fileFeedBack')
-  path = text
   if(text){
     var name = text.split('\\')
     element.value = name[name.length -1];
   }
                   
+} 
 
-}
-const notify = (content) => toast.success(content);
 const LoadData = () => {
   const {currentColor, currentMode} = useStateContext() 
   const [completed, setCompleted] = useState(0)

@@ -4,7 +4,7 @@ import { useStateContext } from '../contexts/ContextProvider'
 const {api} = window
 const Notification = () => {
  
-  const {notifications, setNotifications} = useStateContext();
+  const {notifications, setNotifications, currentColor} = useStateContext();
   const [isDownloading, setIsDownloading] = useState(false)
 
   useEffect(() => {
@@ -36,19 +36,20 @@ const Notification = () => {
 
 
 
-    console.log(notifications);
-  }, [notifications])
+    
+  }, [notifications, setNotifications])
   
   return (
-    <div  className='absolute rounded-md p-2 top-14 left-5/6 w-45 h-60 bg-white'>
+    <div  style={{backgroundColor: currentColor}} className='absolute rounded-md p-2 top-14 left-5/6 w-45 h-60 bg-white'>
       <p className='font-bold text-center mb-2'>Notification Center</p>
       {isDownloading && notifications.find((item) => (item.id === 'download')).message}
 
       {  notifications.map((item, i) => {
-        if(item.id !== 'download')
+        if(item.id !== 'download') 
           return(
             <p key={i}>{item.message}</p>
           )
+        return ''
       })}
       
     </div>

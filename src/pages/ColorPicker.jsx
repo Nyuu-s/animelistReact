@@ -1,5 +1,5 @@
-import React , {useEffect}from 'react'
-import {ColorPickerComponent, getValue} from '@syncfusion/ej2-react-inputs'
+import React from 'react'
+import {ColorPickerComponent} from '@syncfusion/ej2-react-inputs'
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs'
 
 import { useStateContext } from '../contexts/ContextProvider'
@@ -45,7 +45,7 @@ const ColorPicker = () => {
               
               <ColorPickerComponent 
                 
-                id='inline-pallete'
+                id='inline-pallete' 
                 mode='Palette'
                 modeSwitcher={true}
                 inline
