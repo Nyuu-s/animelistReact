@@ -1,8 +1,7 @@
-import { AiOutlineCalendar, AiOutlineUnorderedList } from 'react-icons/ai';
+import { AiOutlineUnorderedList } from 'react-icons/ai';
 import {TbListDetails} from 'react-icons/tb'
 import { FiShoppingBag} from 'react-icons/fi';
-import { BsKanban } from 'react-icons/bs';
-import { IoMdContacts } from 'react-icons/io';
+
 
 export const links = [
     {
@@ -36,19 +35,14 @@ export const links = [
         },
       ],
     },
-    {
-      title: 'Apps',
-      links: [
-        {
-          name: 'calendar',
-          src: 'calendar',
-          icon: <AiOutlineCalendar />,
-        },
-        {
-          name: 'todo-list',
-          src: 'todo-list',
-          icon: <BsKanban />,
-        },
-      ],
-    },
+    // {
+    //   title: 'Apps',
+    //   links: [
+    //     {
+    //       name: 'calendar',
+    //       src: 'calendar',
+    //       icon: <AiOutlineCalendar />,
+    //     },
+    //   ],
+    // },
   ];
