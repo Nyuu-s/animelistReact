@@ -72,7 +72,7 @@ const AnimesDetails = () => {
   const {id} = useParams()
 
    
-  var curAnime =  useMemo(() => AnimesData.data ?  AnimesData.data[id] : {}, [AnimesData.data, id])
+  var curAnime =  useMemo(() => AnimesData.data ?  AnimesData.data[id] : {}, [AnimesData.data, id, AnimesData.data[id]])
   var headers = Object.keys(curAnime)
 
   useEffect(() => { 
