@@ -6,7 +6,7 @@ import {AiOutlineEdit} from 'react-icons/ai'
 
 import { Header, AnimesFilters } from '../components'
 const inputstyle = "mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-
+const {api} = window
 const getAnimeInfo = (anime, mode=false) => {
   var res = []
   var isLinguaIta = anime['Lingua'] === 'Ita'
@@ -70,9 +70,9 @@ const AnimesDetails = () => {
   const [currentAnimeImage, setCurrentAnimeImage ] = useState([])
   const [editMode, setEditMode ] = useState(false)
   const {id} = useParams()
-
+  
    
-  var curAnime =  useMemo(() => AnimesData.data ?  AnimesData.data[id] : {}, [AnimesData.data, id, AnimesData.data[id]])
+  var curAnime =  useMemo(() => AnimesData.data ?  AnimesData.data[id] : {}, [AnimesData.data, id,AnimesData.data[id] ])
   var headers = Object.keys(curAnime)
 
   useEffect(() => { 
@@ -105,6 +105,7 @@ const AnimesDetails = () => {
                 <button className='mr-4 hover:bg-red-900 p-1 rounded-md' onClick={() => setEditMode(!editMode)}>Cancel</button>
                 <button className='mr-4 hover:bg-green-700 p-1 rounded-md' onClick={() =>{
                   AnimesData.data[id] = saveEdit()
+                  api.storageSet(AnimesData.data)
                   setEditMode(!editMode)
                   }}>
                 Save
