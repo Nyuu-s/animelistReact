@@ -18,7 +18,7 @@ const setFileFeedBack = (text) => {
 } 
 
 const LoadData = () => {
-  const {currentColor, currentMode} = useStateContext() 
+  const {currentColor, currentMode, setAnimesData} = useStateContext() 
   const [completed, setCompleted] = useState(0)
   
   
@@ -64,8 +64,11 @@ const LoadData = () => {
           try {
             const path = await window.api.openFile()
             setFileFeedBack(path)
-            if(path)
-              await toast.promise(window.api.parseAnimes(path), {pending: 'Processing data...', success: 'Done !', error: 'Something went wrong.'})
+            if(path){
+
+              var result = await toast.promise(window.api.parseAnimes(path), {pending: 'Processing data...', success: 'Done !', error: 'Something went wrong.'})
+              setAnimesData(result)
+            }
           } catch (error) {
             toast.error('an error occured' +  error.message)
           }
