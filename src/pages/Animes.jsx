@@ -149,32 +149,55 @@ const Animes = () => {
           searchSettings={{ignoreCase: true}}
           width={"auto"}
           actionBegin={(arg) => {
-            console.log(arg);
             switch (arg.requestType) {
               case 'save': 
-                if(arg.action === 'edit')
-                  AnimesData.data[arg.rowData.id] = arg.data
-                if(arg.action === 'add')
-
-                  var inputs = arg.form.querySelectorAll('input')
-                  inputs.forEach(item => 
-                    {
-                      setValue(`data.${item.id}`, item.value, arg)
+              if(arg.action === 'edit'){
+                console.log('ag,kfdgh', arg);
+                var inputs = arg.form.querySelectorAll('input')
+                inputs.forEach(item => 
+                  {
+                    var name = item.id.split('-')
+                    var linkObject = {text: '', hyperlink: ''}
+                    if(name.length > 1){
+                      var nameText = arg.form.querySelector('#' + name[0])
+                      console.log(item.id, item.value);
                       
-                      setValue(`data.id`, AnimesData.data.length, arg)
-                      setValue(`index`, AnimesData.data.length, arg)
-                     var splitname = item.id.split('-')
-                     if(splitname.length > 1){
-                      setValue(`data.${splitname[0]}`, {text: arg.data[splitname[0]], hyperlink: item.value}, arg)
-                     }
-                     
+                      
+                      setValue(`data.${name[0]}`, {text: nameText.value, hyperlink: item.value} , arg)
+                    }else{
+                      if(typeof arg.previousData[name[0]] === 'object'){
 
-                  
-
+                        linkObject.text = item.value
+                        
+                        setValue(`data.${name[0]}`,linkObject, arg)
+                      }
+                      else
+                        setValue(`data.${name[0]}`, item.value , arg)
                     }
+                  }
+                )
+                
 
-                  )
-                  console.log('Saved added line')
+                AnimesData.data[arg.rowData.id] = arg.data
+              }
+              if(arg.action === 'add')
+              {
+                var inputs = arg.form.querySelectorAll('input')
+                inputs.forEach(item => 
+                  {
+                    setValue(`data.${item.id}`, item.value, arg)
+                    
+                    setValue(`data.id`, AnimesData.data.length, arg)
+                    setValue(`index`, AnimesData.data.length, arg)
+                  var splitname = item.id.split('-')
+                  if(splitname.length > 1){
+                    setValue(`data.${splitname[0]}`, {text: arg.data[splitname[0]], hyperlink: item.value}, arg)
+                  }
+                  }
+                )
+                console.log('Saved added line')
+              }
+              
                 break;
             
               default:
