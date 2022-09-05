@@ -26,6 +26,8 @@ contextBridge.exposeInMainWorld(
     openFile: () => ipcRenderer.invoke('dialog:open-file'),
     parseAnimes: (path) => ipcRenderer.invoke('parser:xslx', path),
     storageGet: () => ipcRenderer.invoke('storage:read-data'),
+    storageSet: (param) => ipcRenderer.invoke('storage:write-data', param),
+    storageClear: () => ipcRenderer.invoke('storage:clear-data'),
     getImage: (url) => ipcRenderer.invoke('data:get-image', url),
     getVersion: () => ipcRenderer.invoke('version'),
     recieve: (channel, func) => ipcRenderer.on(

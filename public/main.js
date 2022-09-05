@@ -142,6 +142,12 @@ const handleStorageAccess = () => {
 
     return storage.get('data-grid')
 }
+const handleStorageWriteAccess = (_, arg) => {
+    storage.set('data-grid.data', arg)
+}
+const handleStorageDelete = () => {
+    storage.delete('data-grid')
+}
 
 
 const handleOpenInBrowser = (event, uri) => {
@@ -162,6 +168,8 @@ app.on('ready', () => {
     ipcMain.handle('window:minimize-app', handleMinimize);
     ipcMain.handle('window:open-in-browser', handleOpenInBrowser);
     ipcMain.handle('storage:read-data', handleStorageAccess);
+    ipcMain.handle('storage:write-data', handleStorageWriteAccess);
+    ipcMain.handle('storage:clear-data', handleStorageDelete);
     ipcMain.handle('parser:xslx', handleParseAnimes);
     ipcMain.handle('data:get-image', handleGetImageURL);
     ipcMain.handle('version', handleGetVersion);

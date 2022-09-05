@@ -27,7 +27,7 @@ import { useStateContext } from '../contexts/ContextProvider'
 import { setValue } from '@syncfusion/ej2-base';
 
 
-
+const {api} = window
 
 const animesGroupesLinks = (props) => {
   if(!props.Nome){
@@ -109,7 +109,8 @@ const Animes = () => {
     if(!AnimesData || (!AnimesData.data || AnimesData.data.length <= 0)){
       console.log("loading...");
       window.api.storageGet().then(data => {
-        setAnimesData(data)
+        if(data.data)
+          setAnimesData(data)
       })   
     }
   }, [AnimesData, setAnimesData])
@@ -142,47 +143,41 @@ const Animes = () => {
           toolbar={['Search', 'Add', 'Delete', 'Clear']}
           toolbarClick={(arg) => {  
             if(arg.item.id === "grid_1228884828_0_Clear"){
-              setAnimesData({})
+              setAnimesData({data: [], format: AnimesData.format})
+              api.storageClear()
               //TODO remove electron storage
             }
           }}
           searchSettings={{ignoreCase: true}}
           width={"auto"}
           actionBegin={(arg) => {
+            var inputs
+           
+            console.log(arg);
             switch (arg.requestType) {
               case 'save': 
               if(arg.action === 'edit'){
                 console.log('ag,kfdgh', arg);
-                var inputs = arg.form.querySelectorAll('input')
+                inputs = arg.form.querySelectorAll('input')
                 inputs.forEach(item => 
                   {
                     var name = item.id.split('-')
-                    var linkObject = {text: '', hyperlink: ''}
                     if(name.length > 1){
                       var nameText = arg.form.querySelector('#' + name[0])
-                      console.log(item.id, item.value);
-                      
-                      
                       setValue(`data.${name[0]}`, {text: nameText.value, hyperlink: item.value} , arg)
                     }else{
-                      if(typeof arg.previousData[name[0]] === 'object'){
-
-                        linkObject.text = item.value
-                        
-                        setValue(`data.${name[0]}`,linkObject, arg)
-                      }
-                      else
+                      if(typeof arg.previousData[name[0]] !== 'object')
                         setValue(`data.${name[0]}`, item.value , arg)
                     }
                   }
                 )
                 
-
                 AnimesData.data[arg.rowData.id] = arg.data
+                
               }
               if(arg.action === 'add')
               {
-                var inputs = arg.form.querySelectorAll('input')
+                inputs = arg.form.querySelectorAll('input')
                 inputs.forEach(item => 
                   {
                     setValue(`data.${item.id}`, item.value, arg)
@@ -199,10 +194,16 @@ const Animes = () => {
               }
               
                 break;
+              case "delete":
+                var delIndex = animes.data.findIndex((key)=>(key.id === arg.data[0].id))
+                AnimesData.data.splice(delIndex, 1)
+              break;
+
             
               default:
                 break;
             }
+             api.storageSet(AnimesData.data)
            }}
           >
             {/* "grid_1228884828_2_add" */}
